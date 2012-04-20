@@ -1,0 +1,189 @@
+<div class="row">
+
+    <div class="span12">
+
+        <h2><%= title %></h2>
+        <small>
+            By <a href="mailto:<%= author.email %>"><%= author.name %></a>
+            &nbsp;
+            <a href="/update/<%= _id %>">edit</a>
+        </small>
+    
+        <br /><br />
+    
+        <p>
+            <%= content %>
+        </p>
+        <hr />
+    </div>
+</div>
+
+<!-- COMMENT FORM -->
+<div class="row">
+    <div class="span6" id="commentsContainer">
+        
+        <% if (comments.length == 0) { %>
+            <b>No comments</b>
+        <% } else { %>
+            <h3>Comments</h3>
+
+        <% } %>
+        <% for(i=0; i<comments.length; i++) { %>
+        <div class="comment">
+            <p>
+                <b><%= comments[i].name %> said</b><br>
+                <%= comments[i].text %>
+                <br>
+                <small><%= comments[i].date %></small>
+            </p>
+        </div>
+        <% } %>
+    </div>
+    
+    
+    <div class="span6">
+        <form class="form-horizontal" id="commentForm" method="POST" action="/comment">
+            <fieldset>
+                <legend>Add a comment</legend>
+
+                <div class="control-group">
+                    <label class="control-label" for="name">Your name</label>
+                    <div class="controls">
+                        <input type="text" name="name" id="name">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="text">Comment</label>
+                    <div class="controls">
+                        <textarea class="input-xlarge" id="text" name="text" rows="6" cols="50"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <input type="hidden" value="<%= urlslug %>" name="urlslug">
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                    <button type="button" id="ajaxCommentBtn">Comment by AJAX</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    
+</div>
+
+<!-- THIS SECTION IS FOR INSTRUCTIONAL PURPOSES -->
+<div class="row">
+
+    <div class="span10">
+        <h3>Code sample - how a single blog post is displayed</h3>
+        <pre>
+// web.js
+// Display a single blog post
+// A user might request /entry/this-blog-is-great
+//
+// this-blog-is-great will be the variable :urlslug => request.params.urlslug
+
+app.get('/entry/:urlslug',function(request, response){
+
+    // Get the request blog post by urlslug
+    BlogPost.findOne({urlslug:request.params.urlslug},function(err,post){
+        if (err) {
+            console.log('error');
+            console.log(err);
+            response.send("uh oh, can't find that post");
+        }
+
+        // use different layout for single entry view
+        post.layout = 'layout_single_entry.html';
+
+        // found the blogpost
+        response.render('blog_single_entry.html', post);
+    });
+});
+        </pre>
+  <br>
+  <h3>How to get blog post by _id</h3>
+        <pre>
+            app.get("/entryById/:postId", function(request, response) {
+
+                var requestedPostID = request.params.postId;
+
+                BlogPost.findById( requestedPostID, function(err, blogpost) {
+
+                    if (err) {
+                        console.log(err);
+                        response.send("an error occurred!");
+                    }
+
+                    if (blogpost == null ) {
+                        console.log('post not found');
+                        response.send("uh oh, can't find that post");
+
+                    } else {
+
+                        // use different layout for single entry view
+                        blogpost.layout = 'layout_single_entry.html';
+
+                        // found the blogpost
+                        response.render('blog_single_entry.html', blogpost);
+                    }
+
+                })
+
+            });
+        </pre>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="span10">
+        <h3>Code sample - how a comment is POST'd to the server</h3>
+        <pre>
+// web.js
+// add a comment to a blog post
+
+app.post('/comment', function(request, response){
+    
+    // get the comment form's hidden value - urlslug
+    var urlslug = request.body.urlslug;
+    
+    // Query for the blog post with matching urlslug
+    BlogPost.findOne({urlslug:urlslug}, function(err,post){
+        
+        // if there was an error...
+        if (err) {
+            console.log('There was an error');
+            console.log(err);
+            
+            // display message to user
+            response.send("uh oh, can't find that post"); 
+        }
+        
+        // Prepare, save and redirect
+        
+        // prepare new comment for blog post with the form data
+        var commentData = {
+            name : request.body.name,
+            text : request.body.text
+        };
+        
+        // create new comment
+        var comment = new Comment(commentData);
+        
+        // append the comment to the comment list
+        post.comments.push(comment);
+        post.save();
+        
+        // redirect to the blog entry
+        response.redirect('/entry/' + urlslug);
+
+    });
+    
+});
+        </pre>
+    </div>
+
+</div>
+
