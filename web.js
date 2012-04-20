@@ -5,8 +5,15 @@ var app = express.createServer(express.logger());
 
 var mongoose = require('mongoose'); // include Mongoose MongoDB library
 var schema = mongoose.Schema; 
-
 var requestURL = require('request');
+
+var Twit = require('twit');
+var T = new Twit({
+    consumer_key:         process.env.CONSUMER_KEY
+  , consumer_secret:      process.env.CONSUMER_SECRET
+  , access_token:         process.env.ACCESS_TOKEN
+  , access_token_secret:  process.env.ACCESS_TOKEN_SECRET
+});
 
 /************ DATABASE CONFIGURATION **********/
 app.db = mongoose.connect(process.env.MONGOLAB_URI); //connect to the mongolabs database - local server uses .env file
@@ -525,6 +532,19 @@ app.get("/jsonp", function(request, response){
     
 })
 
+//Twitter - make AJAX route with JSONP
+app.get("/twitter", function(request, response){
+	T.get('search', { q: 'NYU ITP', since: '2012-04-19' }, function(err, reply) {
+		
+		response.json(reply);
+		
+		templateData = {
+			layout:'remote_json_example.html'
+		};
+		
+		response.render("remote_json_example.html", templateData);
+	});
+});
 
 // Make server turn on and listen at defined PORT (or port 3000 if is not defined)
 var port = process.env.PORT || 3000;

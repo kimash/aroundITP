@@ -20,9 +20,17 @@ module.exports.configureSchema = function(Schema, mongoose) {
         , email  : String
       }
     });
+    
+    // Tweet
+    var Tweet = new Schema({
+      from_user	: String
+    , from_user_name	: String
+    , date      : { type: Date, default: Date.now }
+    , text	: String
+    });
 
     // add schemas to Mongoose
     mongoose.model('BlogPost', BlogPost);
     mongoose.model('Comment', Comments);
-
+	mongoose.model('Tweet', Tweet);
 };
