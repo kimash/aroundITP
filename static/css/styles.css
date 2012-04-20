@@ -1,10 +1,12 @@
 body { 
-    background: #fff;
+    background: #4B0082;
+    background-image: url("../img/LED_throwies_chaos.jpg");
+    background-repeat: repeat;
+    color: #4B0082;
 }
 
 a { 
-    color: #00c;
-    text-decoration: underline;
+    color: #191970;
 }
 
 
@@ -13,5 +15,38 @@ input { height: 18px;}
 textarea {
     width:610px;
     height:200px;
+}
+
+h1 {
+	font-family: 'Wire One', sans-serif;
+	font-size: 60px;
+	padding-top: 20px;
+}
+
+h2 {
+	font-family: 'Wire One', sans-serif;
+	font-size: 30px;
+	padding-top: 10px;
+}
+
+h3 {
+	font-family: 'Wire One', sans-serif;
+	font-size: 20px;
+}
+
+hr {
+	color: #4B0082;
+	background-color: #4B0082;
+	height: 1px;
+}
+
+small {
+	font-family: sans-serif;
+	
+}
+
+.container {
+	background: #E6E6FA;
+	padding: 20px;
 }
 
