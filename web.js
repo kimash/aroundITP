@@ -534,7 +534,7 @@ app.get("/jsonp", function(request, response){
 
 //Twitter - make AJAX route with JSONP
 app.get("/twitter", function(request, response){
-	T.get('search', { q: 'NYU ITP', since: '2012-04-19' }, function(err, reply) {
+	T.get('search', { q: 'NYU ITP', since: '2012-04-19', rpp: '100' }, function(err, reply) {
 		
 		response.json(reply);
 		
