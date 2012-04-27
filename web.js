@@ -532,19 +532,33 @@ app.get("/jsonp", function(request, response){
     
 })
 
-//Twitter - make AJAX route with JSONP
-app.get("/twitter", function(request, response){
-	T.get('search', { q: 'NYU ITP', since: '2012-04-19', rpp: '100' }, function(err, reply) {
-		
-		response.json(reply);
+//Twitter
+app.get("/itptweets", function(request, response){
+	T.get('search', { q: 'NYU ITP', result_type: 'recent', include_entities: 'true', rpp: '50' }, function(err, reply) {
 		
 		templateData = {
-			layout:'remote_json_example.html'
+			  layout:'layout_ajax.html'
+			, twitterData: reply.results
 		};
 		
-		response.render("remote_json_example.html", templateData);
+		response.render("results.html", templateData);
 	});
 });
+
+app.get("/localtweets", function(request, response){
+	T.get('search', { q:'', geocode:'40.729874,-73.993462,0.5mi', result_type: 'recent', include_entities: 'true', rpp: '100' }, function(err, reply) {
+		//response.json(reply);
+		templateData = {
+			  layout:'layout_ajax.html'
+			, twitterData: reply.results
+		};
+		
+		response.render("results.html", templateData);
+	});
+});
+
+
+
 
 // Make server turn on and listen at defined PORT (or port 3000 if is not defined)
 var port = process.env.PORT || 3000;

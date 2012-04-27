@@ -1,0 +1,20 @@
+<h1>AroundITP</h1>
+<br>
+<h3><a href="/new-entry">What up?</a><h3>
+<% for(i=0; i<twitterData.length; i++) { %>
+<div class="row">
+
+    <div class="span12">
+
+        <h2>
+            <%= twitterData[i].from_user %>
+        </h2>
+        <h3>
+        	<%= twitterData[i].text %>
+        </h3>
+        <hr />
+        
+    </div>
+</div>
+
+<% } %>
