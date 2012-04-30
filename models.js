@@ -25,12 +25,24 @@ module.exports.configureSchema = function(Schema, mongoose) {
     var Tweet = new Schema({
       from_user	: String
     , from_user_name	: String
-    , date      : { type: Date, default: Date.now }
+    , created_at      : String
     , text	: String
+    });
+    
+    // Yelp
+    var Yelp = new Schema({
+      name : String,
+      address : String,
+      display_phone : String,
+      rating : String,
+      url : String,
+      review_count : String,
+      is_closed : Boolean
     });
 
     // add schemas to Mongoose
     mongoose.model('BlogPost', BlogPost);
     mongoose.model('Comment', Comments);
 	mongoose.model('Tweet', Tweet);
+	mongoose.model('Yelp', Yelp);
 };

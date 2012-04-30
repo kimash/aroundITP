@@ -15,6 +15,14 @@ var T = new Twit({
   , access_token_secret:  process.env.ACCESS_TOKEN_SECRET
 });
 
+var yelp = require("yelp").createClient({
+  consumer_key: process.env.YELP_CONSUMER_KEY, 
+  consumer_secret: process.env.YELP_CONSUMER_SECRET,
+  token: process.env.YELP_TOKEN,
+  token_secret: process.env.YELP_TOKEN_SECRET,
+  ywsid: process.env.YWSID
+});
+
 /************ DATABASE CONFIGURATION **********/
 app.db = mongoose.connect(process.env.MONGOLAB_URI); //connect to the mongolabs database - local server uses .env file
 
@@ -554,6 +562,35 @@ app.get("/localtweets", function(request, response){
 		};
 		
 		response.render("results.html", templateData);
+	});
+});
+
+//Yelp
+app.get("/food", function(request, response){
+	yelp.search({ term:"food", ll:"40.729874,-73.993462", limit:"20"}, function(err, reply) {
+		//response.json(reply);
+		templateData = {
+			  layout:'layout_ajax.html'
+			, yelpData: reply.businesses
+		};
+		console.log(err);
+  		console.log(reply);
+		
+		response.render("yelp_results.html", templateData);
+	});
+});
+
+app.get("/drink", function(request, response){
+	yelp.search({ term:"bars", ll:"40.729874,-73.993462", limit:"20"}, function(err, reply) {
+		//response.json(reply);
+		templateData = {
+			  layout:'layout_ajax.html'
+			, yelpData: reply.businesses
+		};
+		console.log(err);
+  		console.log(reply);
+		
+		response.render("yelp_results.html", templateData);
 	});
 });
 

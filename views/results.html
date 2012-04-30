@@ -1,6 +1,6 @@
-<h1>AroundITP</h1>
+<h1><a href="/">AroundITP</a></h1>
 <br>
-<h3><a href="/new-entry">What up?</a><h3>
+<!--<h3><a href="/new-entry">What up?</a><h3>-->
 <% for(i=0; i<twitterData.length; i++) { %>
 <div class="row">
 
@@ -8,7 +8,9 @@
 
         <h2>
             <%= twitterData[i].from_user %>
+            <small><%= twitterData[i].from_user_name %></small>
         </h2>
+        <small> <%= twitterData[i].created_at %></small>
         <h3>
         	<%= twitterData[i].text %>
         </h3>
