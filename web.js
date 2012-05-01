@@ -20,7 +20,6 @@ var yelp = require("yelp").createClient({
   consumer_secret: process.env.YELP_CONSUMER_SECRET,
   token: process.env.YELP_TOKEN,
   token_secret: process.env.YELP_TOKEN_SECRET,
-  ywsid: process.env.YWSID
 });
 
 /************ DATABASE CONFIGURATION **********/
@@ -570,8 +569,8 @@ app.get("/localtweets", function(request, response){
 
 //Yelp
 app.get("/food", function(request, response){
-	yelp.search({ term:"food", ll:"40.729874,-73.993462", limit:"20"}, function(err, reply) {
-		response.json(reply);
+	yelp.search({ term:"food", ll:"40.729874,-73.993462", limit:"20", sort:"1", offset:"20"}, function(err, reply) {
+		//response.json(reply);
 		templateData = {
 			  layout:'layout_ajax.html'
 			, yelpData: reply.businesses
