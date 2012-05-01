@@ -73,9 +73,6 @@ app.configure(function() {
 });
 /*********** END SERVER CONFIGURATION *****************/
 
-
-
-// main page - display all blog posts
 // More Mongoose query information here - http://mongoosejs.com/docs/finding-documents.html
 app.get('/', function(request, response) {
     response.render('blog_main.html');
@@ -130,7 +127,7 @@ app.get('/entry/:urlslug',function(request, response){
 });
 
 // .findById example
-// Get a blogpost by its unique objectId (._id)
+// Get a thread by its unique objectId (._id)
 app.get("/entryById/:postId", function(request, response) {
     
     var requestedPostID = request.params.postId;
@@ -160,7 +157,7 @@ app.get("/entryById/:postId", function(request, response) {
 });
 
 
-// add a comment to a blog post
+// add a comment to a thread
 app.post('/comment', function(request, response){
     
     // get the comment form's hidden value - urlslug
@@ -214,9 +211,7 @@ app.post('/comment', function(request, response){
 });
 
 
-
-
-// CREATE A NEW BLOG POST
+// CREATE A NEW DISCUSSION THREAD
 
 app.get('/new-entry',function(request, response){
     
@@ -228,7 +223,7 @@ app.get('/new-entry',function(request, response){
 // receive a form submission
 app.post('/new-entry', function(request, response){
     
-    console.log('Received new blog post submission');
+    console.log('Received new discussion thread');
     console.log(request.body);
     
     // Prepare the blog post entry form into a data object
@@ -242,10 +237,10 @@ app.post('/new-entry', function(request, response){
         }
     };
     
-    // create a new blog post
+    // create a new discussion thread
     var post = new BlogPost(blogPostData);
     
-    // save the blog post
+    // save the discussion thread
     post.save();
     
     // redirect to show the single post
@@ -450,101 +445,9 @@ app.get('/jsontest',function(request, response) {
     }); // end of requestURL callback
 }); //end of /jsontest route
 
-/************ YAHOO  WEATHER EXAMPLE **************/
-app.get('/weather', function(request, response){
-    
-    // default /weather request - redirect to /weather/NYC
-    response.redirect("/weather/nyc");
-    
-});
-
-app.get('/weather/:location', function(request, response){
-    
-    // Yahoo Where On Earth ID ( WOEID )
-    // look up more locations here http://woeid.rosselliot.co.nz/lookup/shanghai
-    YAHOOLocations = {
-        'nyc' : 2459115,
-        'berlin' : 638242,
-        'shanghai' : 2151849
-    }
-
-    // convert incoming location parameter to lowercase
-    requestedLocation = request.params.location.toLowerCase();
-    
-    // lookup the location in YAHOOLocations
-    if (requestedLocation in YAHOOLocations ) {
-        woeid = YAHOOLocations[requestedLocation];
-    } else {
-        woeid = YAHOOLocations['nyc'] // default to nyc
-    }
-    
-    // build the request URL
-    yahooWeatherURL = "http://weather.yahooapis.com/forecastjson?w=" + woeid;
-    
-    // make the request
-    requestURL(yahooWeatherURL, function(err, httpResponse, data) {
-        
-        if (err || httpResponse.statusCode != 200) {
-            console.log(err);
-            response.send("Something went wrong");
-        }
-        
-        if (httpResponse.statusCode == 200) {
-            
-            //convert JSON string into JS Object
-            weatherData = JSON.parse(data);
-            
-            console.log("-------- DATA RECEIVED -------");
-            console.log(data);
-            console.log("------------------------------");
-            
-            templateData = {
-                jsonFromYahoo : data,
-                weather : weatherData,
-                requestedURL : yahooWeatherURL, 
-                YAHOOLocations : YAHOOLocations
-            }
-            
-            response.render('weather_from_yahoo.html', templateData);
-        }
-        
-        
-    })
-    
-});
-
-
-// AJAX Example Page
-app.get("/ajax", function(request, response){
-    
-    // use the layout --> layout_ajax.html, includes the ajax_example.js script
-    templateData = {
-        layout:'layout_ajax.html'
-    };
-    
-    //render the template 
-    response.render("ajax_example.html", templateData);
-    
-});
-
-
-
-// AJAX JSONP Example
-app.get("/jsonp", function(request, response){
-    
-    // use the layout --> layout_ajax.html, includes the ajax_example.js script
-    templateData = {
-        layout:'layout_ajax.html'
-    };
-    
-    //render the template 
-    response.render("ajax_jsonp_example.html", templateData);
-    
-})
-
 //Twitter
 app.get("/itptweets", function(request, response){
-	T.get('search', { q: 'NYU ITP', result_type: 'recent', include_entities: 'true', rpp: '50' }, function(err, reply) {
+	T.get('search', { q: 'NYU ITP', result_type: 'recent', include_entities: 'true', rpp: '100' }, function(err, reply) {
 		
 		templateData = {
 			  layout:'layout_ajax.html'
