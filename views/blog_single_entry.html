@@ -2,15 +2,11 @@
 
     <div class="span12">
 
-        <h2><%= title %></h2>
-        <small>
-            By <a href="mailto:<%= author.email %>"><%= author.name %></a>
-            <a href="/update/<%= _id %>">edit</a>
-        </small>
-    
-        <br /><br />
-    
+        <h2><%= title %>
+        </h2>
+        <br>
         <p>
+        <b><%= author.name %> </b><small><%= date %></small><br>
             <%= content %>
         </p>
         <hr />
@@ -25,10 +21,10 @@
         <% for(i=0; i<comments.length; i++) { %>
         <div class="comment">
             <p>
-                <b><%= comments[i].name %> said</b><br>
+            	
+                <b><%= comments[i].name %> </b><small><%= comments[i].date %></small><br>
                 <%= comments[i].text %>
                 <br>
-                <small><%= comments[i].date %></small>
             </p>
             <hr/>
         </div>
@@ -39,7 +35,7 @@
     <div class="span12">
         <form class="form-horizontal" id="commentForm" method="POST" action="/comment">
             <fieldset>
-                <legend>Add a comment</legend>
+                <legend>Contribute</legend>
 
                 <div class="control-group">
                     <label class="control-label" for="name">Your name</label>

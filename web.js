@@ -583,7 +583,7 @@ app.get("/food", function(request, response){
 });
 
 app.get("/drink", function(request, response){
-	yelp.search({ term:"bars", ll:"40.729874,-73.993462", limit:"20"}, function(err, reply) {
+	yelp.search({ term:"bars", ll:"40.729874,-73.993462", limit:"20", sort:"1", offset:"20"}, function(err, reply) {
 		//response.json(reply);
 		templateData = {
 			  layout:'layout_ajax.html'

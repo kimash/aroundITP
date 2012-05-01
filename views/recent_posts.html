@@ -16,10 +16,10 @@
         <small>
             <a href="/entryById/<%= posts[i]._id %>">View by objectId</a>
         </small>
-        <br>
-        <small>Location: <%= posts[i].location %></small>
         <br/>
-        <small>By <%= posts[i].author.name %> on <%= posts[i].date %></small>
+        <small>By <%= posts[i].author.name %></small>
+        <br>
+        <small><%= posts[i].date %></small>
         <br/>
         
         <hr />
