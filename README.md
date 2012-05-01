@@ -73,9 +73,11 @@ Heroku add-ons: MONGOLAB
 ### Running the code
 
 Start the Node server in Terminal (from within the directory):
+
 	foreman start
 
 Otherwise, run after pushing to Heroku.
+
 	git add .
 	git commit -am "commit details"
 	git push heroku master
