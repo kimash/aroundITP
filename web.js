@@ -79,6 +79,10 @@ app.configure(function() {
 // main page - display all blog posts
 // More Mongoose query information here - http://mongoosejs.com/docs/finding-documents.html
 app.get('/', function(request, response) {
+    response.render('blog_main.html');
+});
+// end of main page
+app.get('/discuss', function(request, response) {
 
     // build the query
     var query = BlogPost.find({});
@@ -93,12 +97,11 @@ app.get('/', function(request, response) {
         };
         
         // render the card_form template with the data above
-        response.render('blog_main.html', templateData);
+        response.render('discuss.html', templateData);
         
     });
     
 });
-// end of main page
 
 
 // Display a single blog post
@@ -567,8 +570,8 @@ app.get("/localtweets", function(request, response){
 
 //Yelp
 app.get("/food", function(request, response){
-	yelp.search({ term:"food", ll:"40.729874,-73.993462"}, function(err, reply) {
-		//response.json(reply);
+	yelp.search({ term:"food", ll:"40.729874,-73.993462", limit:"20"}, function(err, reply) {
+		response.json(reply);
 		templateData = {
 			  layout:'layout_ajax.html'
 			, yelpData: reply.businesses
@@ -581,7 +584,7 @@ app.get("/food", function(request, response){
 });
 
 app.get("/drink", function(request, response){
-	yelp.search({ term:"bars", ll:"40.729874,-73.993462"}, function(err, reply) {
+	yelp.search({ term:"bars", ll:"40.729874,-73.993462", limit:"20"}, function(err, reply) {
 		//response.json(reply);
 		templateData = {
 			  layout:'layout_ajax.html'

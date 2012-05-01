@@ -1,7 +1,7 @@
 <% if (updated) { %>
     <br>
     <div class="alert alert-success">
-        Blog post updated successfully - <a href="/entryById/<%= blogpost._id %>">View post</a>
+        Thread updated successfully - <a href="/entryById/<%= blogpost._id %>">View post</a>
     </div>
 <% } %>
 
@@ -12,7 +12,7 @@
     <input type="hidden" name="blog_post_id" value="<%= blogpost._id %>">
     
     <fieldset>
-        <legend>Blog Post Entry Form</legend>
+        <legend>Start a Thread</legend>
         <div class="control-group">
             <label class="control-label" for="title">Title</label>
             <div class="controls">
@@ -24,7 +24,7 @@
             <label class="control-label" for="urlslug">URL Slug</label>
             <div class="controls">
                 <input type="text" disabled class="input-medium" name="urlslug" id="urlslug" value="<%= blogpost.urlslug %>">
-                <p class="help-block">The url slug for this blog entry, the ending of the URL. ie 'http://localhost:5000/entry/<b><u>the-itp-story</u></b>'</p>
+                <p class="help-block">The url slug for this thread, the ending of the URL. ie 'http://localhost:5000/entry/<b><u>the-itp-story</u></b>'</p>
             </div>
         </div>
 

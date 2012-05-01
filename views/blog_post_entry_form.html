@@ -1,6 +1,6 @@
 <form class="form-horizontal" method="POST" action="/new-entry">
     <fieldset>
-        <legend>Blog Post Entry Form</legend>
+        <legend>Start a Thread</legend>
         <div class="control-group">
             <label class="control-label" for="title">Title</label>
             <div class="controls">
@@ -12,7 +12,7 @@
             <label class="control-label" for="urlslug">URL Slug</label>
             <div class="controls">
                 <input type="text" class="input-medium" name="urlslug" id="urlslug">
-                <p class="help-block">The url slug for this blog entry, the ending of the URL. ie 'http://localhost:5000/entry/<b><u>the-itp-story</u></b>'</p>
+                <p class="help-block">The url slug for this thread, the ending of the URL. ie 'http://localhost:5000/entry/<b><u>the-itp-story</u></b>'</p>
             </div>
         </div>
 
@@ -46,52 +46,3 @@
     </fieldset>
 </form>
 
-
-<!-- THIS SECTION IS FOR INSTRUCTIONAL PURPOSES -->
-<div class="row">
-
-    <div class="span10">
-        <h3>Code sample - how a new blog post is POSTed to the server</h3>
-        <pre>
-// web.js
-// Display the new blog post form
-// access this route with /new-entry
-
-app.get('/new-entry',function(request, response){
-
-    //display the blog post entry form
-    response.render('blog_post_entry_form.html');
-
-});
-
-
-// User has submitted a new blog entry. It is POST'd to the server.
-app.post('/new-entry', function(request, response){
-
-    // Prepare the blog post entry form into a data object
-    var blogPostData = {
-        title : request.body.title,
-        urlslug : request.body.urlslug,
-        content : request.body.content,
-        author : {
-            name : request.body.name,
-            email : request.body.email
-        }
-    };
-
-    // create a new blog post
-    // BlogPost is a Mongoose data model and defined at the top of web.js
-    // BlogPost can accept a data object that is defined in model.js
-    var post = new BlogPost(blogPostData);
-
-    // save the blog post entry - that's it.
-    post.save();
-
-    // redirect to show the single post
-    response.redirect('/entry/' + blogPostData.urlslug); // for example /entry/this-is-a-post
-
-});
-        </pre>
-    </div>
-
-</div>

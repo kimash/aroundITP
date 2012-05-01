@@ -1,0 +1,24 @@
+<h1><a href="/">AroundITP</a></h1>
+<br>
+<% for(i=0; i<posts.length; i++) { %>
+<div class="row">
+
+    <div class="span12">
+
+        <h2>
+            <a href="/entry/<%= posts[i].urlslug %>">
+                <%= posts[i].title %>
+            </a>
+        </h2>
+        <!---<small>
+            <a href="/entryById/<%= posts[i]._id %>">View by objectId</a>
+        </small>-->
+        <br>
+        <small>By <%= posts[i].author.name %> on <%= posts[i].date %></small>
+        <br/>
+        <hr />
+        
+    </div>
+</div>
+
+<% } %>
